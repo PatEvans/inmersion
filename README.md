@@ -11,6 +11,8 @@ A personal Chrome extension that shows the whole web in Spanish (or any of 12 la
   - Only videos in your language. If the extension can't tell, the video is hidden.
   - No Shorts.
   - Spanish dub when the video has one; otherwise Spanish captions, auto-translated if needed.
+- **Context-aware**: each request carries the text just before and after it on the page (read-only), so short chat messages and labels are translated with their surroundings in mind ("dont use it lol" after "do u have whatsapp web?" → "no lo uso, jaja").
+- **Privacy**: anything that looks like an API key, token, hash or bare URL is never sent for translation, not even as context.
 - Hold <kbd>⌥</kbd> to peek at the original. <kbd>⌥⇧E</kbd> turns the current site on or off.
 
 ## Install
@@ -60,6 +62,7 @@ Scripts are in `bench/` and their output goes to `bench/out/` (git-ignored). The
 | `google.mjs` + `judge3.mjs` | Google Translate's free unofficial endpoint (`client=gtx`) vs Haiku vs Chrome local, blind three-way | Best of 64: Haiku 41, Google 5, local 0, tie 18. Naturalness 4.77 / 4.16 / 3.00, accuracy 4.89 / 4.59 / 3.75. Google ~0.27 s/request, tags kept 50/50, but **rate-limited (429 + CAPTCHA) after ~150 requests** |
 | `eval-detect.mjs`, `eval-langdetector.mjs` | YouTube title language (1,291 labeled titles) | Spanish shown 88%, non-Spanish leaking through 0.5% |
 | `e2e.mjs` | Real browsing with `dist/` loaded | Pages Spanish in ~1.4–4.8 s from navigation |
+| `chat.mjs` | Informal chat (40 real messages), blind 4-way judge | Wrong-meaning lines: 2–3 without context → 0 with context (avg score unchanged within run-to-run noise; adding thinking costs 3× for no gain) |
 
 ## iPhone
 

@@ -4,7 +4,11 @@
 
 import { langInfo } from "./langs.js";
 
+// The example's context line is the message just above line 1 (see "Before:" below).
+const EXAMPLE_BEFORE = "do u have whatsapp web btw";
 const EXAMPLE_SOURCE = [
+  "dont use it lol",
+  "u can use mine idm",
   "Sign in",
   "Posted by <1>u/throwaway_42</1> 5 hours ago",
   "<1>Learn more</1> about how we use cookies.",
@@ -23,6 +27,7 @@ export function systemPrompt(code) {
 ## Example
 Input:
 Page: Example — example.com
+Before: "${EXAMPLE_BEFORE}"
 ${EXAMPLE_SOURCE.map((s, i) => `${i + 1}: ${s}`).join("\n")}
 Output:
 ${L.examples.map((s, i) => `${i + 1}: ${s}`).join("\n")}`
@@ -30,7 +35,7 @@ ${L.examples.map((s, i) => `${i + 1}: ${s}`).join("\n")}`
   return `You are the translation engine of a browser extension that shows its user the entire web in ${L.name}. They are immersing themselves in the language, so your output replaces the original text on live web pages and must read as if the site had been written in ${L.name} in the first place.
 
 ## Input
-A line with the page title and site, then numbered lines "N: text". Each numbered line is one piece of the same page: a heading, paragraph, menu item, button, link, comment, caption, timestamp. Use the other lines as context (a "Home" next to "News" and "Sport" is a menu item).
+A line with the page title and site, sometimes "Before:" / "After:" lines, then numbered lines "N: text". Each numbered line is one piece of the same page: a heading, paragraph, menu item, button, link, comment, chat message, caption, timestamp. Use the other lines as context (a "Home" next to "News" and "Sport" is a menu item). "Before:" and "After:" quote the text just before line 1 and just after the last line on the page (earlier chat messages, labels); they are context only, never translate or output them.
 
 ## Output
 Exactly one line per numbered input line, same numbers, same order, formatted "N: translation". Nothing else: no notes, no blank lines, no code fences. Never merge or split lines.
@@ -39,19 +44,25 @@ Exactly one line per numbered input line, same numbers, same order, formatted "N
 - Write natural, idiomatic ${L.name}, the way a native speaker would write that kind of text on a website. Keep the tone: casual comments stay casual, legal text stays formal, headlines stay punchy. Do not summarise, explain or censor.
 - ${L.variant}
 - Buttons, menus and tabs use the standard wording that ${L.name} websites and apps use.
+- Chats, comments and posts are informal. Read typos, missing apostrophes and texting shorthand as meant (dont = don't, u = you, idm = I don't mind, tbh, js, lol) and write them the way a native speaker would text in ${L.name}. Work out from the surrounding lines who is speaking and whether a short line is a statement, a question or a request ("dont use it lol" after "do u have whatsapp web?" means "I don't use it").
 - Keep unchanged: names of people, brands, products, services and channels; usernames, @handles and #hashtags; URLs, email addresses, file names and code; emoji. Format numbers, dates and counts the ${L.name} way.
 - Tags: <1>…</1> wraps the text of a link or formatted span; <2/> marks something like an image, icon or code inside the sentence; <br> is a line break. Keep every tag exactly once with the same number, around or at the words that correspond to it in your translation, moving it when word order changes. Never add, drop or renumber tags.
 - A line that is already in ${L.name}, or has nothing to translate (a name, a code, a number), is returned unchanged.${example}`;
 }
 
+const quote = (t, max) => `"${t.replace(/\s+/g, " ").replace(/"/g, "'").trim().slice(-max)}"`;
+
+/** ctx: { url, title, before, after } — before/after are nearby page text, context only. */
 export function userMessage(texts, ctx = {}) {
   let host = "";
   try {
     host = ctx.url ? new URL(ctx.url).hostname.replace(/^www\./, "") : "";
   } catch {}
   const title = (ctx.title || "").replace(/\s+/g, " ").slice(0, 150);
-  const head = `Page: ${[title, host].filter(Boolean).join(" — ") || "unknown"}`;
-  return `${head}\n${texts.map((t, i) => `${i + 1}: ${t}`).join("\n")}`;
+  const lines = [`Page: ${[title, host].filter(Boolean).join(" — ") || "unknown"}`];
+  if (ctx.before?.trim()) lines.push(`Before: ${quote(ctx.before, 300)}`);
+  if (ctx.after?.trim()) lines.push(`After: ${quote(ctx.after.slice(0, 150), 150)}`);
+  return `${lines.join("\n")}\n${texts.map((t, i) => `${i + 1}: ${t}`).join("\n")}`;
 }
 
 /** Incremental parser for streamed "N: text" lines. Calls onLine(index0, text). */

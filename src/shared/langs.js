@@ -8,6 +8,8 @@ export const LANGS = {
     yt: { hl: "es", gl: "ES" }, accept: "es-ES,es;q=0.9",
     variant: "Use Castilian Spanish as written in Spain: tú for one person, vosotros for several, and Spain vocabulary and usage (ordenador, móvil, coche, vale, vídeo, zumo, conducir, \"me he enterado\" rather than \"me enteré\" for recent events).",
     examples: [
+      "no lo uso, jaja",
+      "puedes usar el mío, no me importa",
       "Iniciar sesión",
       "Publicado por <1>u/throwaway_42</1> hace 5 horas",
       "<1>Más información</1> sobre cómo usamos las cookies.",
@@ -23,6 +25,8 @@ export const LANGS = {
     yt: { hl: "es-419", gl: "MX" }, accept: "es-419,es;q=0.9",
     variant: "Use neutral Latin American Spanish: tú for one person, ustedes for several (never vosotros), and Latin American vocabulary (computadora, celular, carro/auto, video, jugo, manejar).",
     examples: [
+      "no lo uso, jaja",
+      "puedes usar el mío, no me importa",
       "Iniciar sesión",
       "Publicado por <1>u/throwaway_42</1> hace 5 horas",
       "<1>Más información</1> sobre cómo usamos las cookies.",
@@ -38,6 +42,8 @@ export const LANGS = {
     yt: { hl: "fr", gl: "FR" }, accept: "fr-FR,fr;q=0.9",
     variant: "Use the French of France; tutoie in casual contexts (social media, comments) and vouvoie in UI and formal text, as French sites do.",
     examples: [
+      "je l'utilise pas mdr",
+      "tu peux prendre le mien, ça me dérange pas",
       "Se connecter",
       "Publié par <1>u/throwaway_42</1> il y a 5 heures",
       "<1>En savoir plus</1> sur notre utilisation des cookies.",
@@ -53,6 +59,8 @@ export const LANGS = {
     yt: { hl: "de", gl: "DE" }, accept: "de-DE,de;q=0.9",
     variant: "Use standard German; du in casual contexts and the du/Sie choice German sites typically make for UI (Sie for banks/government, du for social apps).",
     examples: [
+      "benutz ich nicht lol",
+      "du kannst meins nehmen, macht mir nichts aus",
       "Anmelden",
       "Gepostet von <1>u/throwaway_42</1> vor 5 Stunden",
       "<1>Mehr erfahren</1> darüber, wie wir Cookies verwenden.",
@@ -68,6 +76,8 @@ export const LANGS = {
     yt: { hl: "it", gl: "IT" }, accept: "it-IT,it;q=0.9",
     variant: "Use standard Italian as written on Italian websites.",
     examples: [
+      "non lo uso lol",
+      "puoi usare il mio, non mi dà fastidio",
       "Accedi",
       "Pubblicato da <1>u/throwaway_42</1> 5 ore fa",
       "<1>Scopri di più</1> su come utilizziamo i cookie.",
@@ -83,6 +93,8 @@ export const LANGS = {
     yt: { hl: "pt", gl: "BR" }, accept: "pt-BR,pt;q=0.9",
     variant: "Use Brazilian Portuguese (você, celular, tela, ônibus).",
     examples: [
+      "não uso kkkk",
+      "pode usar o meu, não me importo",
       "Entrar",
       "Postado por <1>u/throwaway_42</1> há 5 horas",
       "<1>Saiba mais</1> sobre como usamos cookies.",
@@ -98,6 +110,8 @@ export const LANGS = {
     yt: { hl: "pt-PT", gl: "PT" }, accept: "pt-PT,pt;q=0.9",
     variant: "Use European Portuguese as written in Portugal (telemóvel, ecrã, autocarro, utilizador; tu in casual contexts).",
     examples: [
+      "não uso, lol",
+      "podes usar o meu, não me importo",
       "Iniciar sessão",
       "Publicado por <1>u/throwaway_42</1> há 5 horas",
       "<1>Saiba mais</1> sobre como utilizamos os cookies.",

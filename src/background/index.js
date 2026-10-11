@@ -169,7 +169,7 @@ async function handleTranslate(port, items, ctx) {
       existing.waiters.push({ port, k: it.k });
       continue;
     }
-    const job = { key, source: it.s, from: it.src || "en", lang, engine, ctx, urgent: !!it.v, waiters: [{ port, k: it.k }] };
+    const job = { key, source: it.s, from: it.src || "en", lang, engine, ctx, pre: it.b ?? "", post: it.a ?? "", urgent: !!it.v, waiters: [{ port, k: it.k }] };
     inflight.set(key, job);
     if (engine === "c") claudeQueue.push(job);
     else if (engine === "g") googleQueue.push(job);
@@ -242,7 +242,7 @@ async function runClaude(chunk, attempt = 0) {
   try {
     const r = await translateWithClaude(claudeClient(), {
       texts: chunk.map((j) => j.source),
-      ctx: chunk[0].ctx,
+      ctx: { ...chunk[0].ctx, before: chunk[0].pre, after: chunk.at(-1).post },
       lang,
       model: settings.model,
       onResult: (i, text) => {
@@ -279,7 +279,7 @@ async function runClaudePieces(jobs) {
   try {
     const r = await translateWithClaude(claudeClient(), {
       texts,
-      ctx: jobs[0].ctx,
+      ctx: { ...jobs[0].ctx, before: jobs[0].pre, after: jobs.at(-1).post },
       lang: jobs[0].lang,
       model: settings.model,
       onResult: (i, text) => (out[i] = text.replace(/<\/?\d{1,3}\/?>|<br>/g, "")),

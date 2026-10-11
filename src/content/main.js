@@ -7,6 +7,7 @@ import { stripMarkup } from "../shared/markup.js";
 import { getSettings, onSettingsChanged, isSiteDisabled } from "../shared/settings.js";
 import { langInfo } from "../shared/langs.js";
 import { guessLang } from "../shared/detect.js";
+import { untranslatable, redact } from "../shared/privacy.js";
 
 const api = globalThis.chrome ?? globalThis.browser;
 const TOP = window === window.top;
@@ -196,6 +197,7 @@ async function detectPageLang(units) {
 /** false = already in the target language; otherwise the source language to send. */
 async function sourceLang(u) {
   const text = (u.plainText ??= stripMarkup(u.source));
+  if (untranslatable(text)) return false; // keys, tokens, URLs: never sent anywhere
   if (text.length >= 60 && api.i18n?.detectLanguage) {
     try {
       const r = await api.i18n.detectLanguage(text.slice(0, 500));
@@ -373,12 +375,37 @@ async function flush() {
     waiting.set(u.source, new Set([u]));
     const id = nextId++;
     inflight.set(id, { source: u.source, src: from });
-    items.push({ k: id, s: u.source, src: from, v: u.inView ? 1 : 0 });
+    items.push({ k: id, s: u.source, src: from, v: u.inView ? 1 : 0, b: nearbyText(u, -1, 300), a: nearbyText(u, 1, 150) });
     if (S.antiFlash) markPending(u);
   });
   if (items.length) send(items);
   // First batch is marked pending (invisible) — now the page itself can show.
   if (initialPhase) reveal();
+}
+
+// Page text just before/after a unit (earlier chat messages, labels): sent as read-only
+// context so short, ambiguous lines are translated with their surroundings in mind.
+function nearbyText(u, dir, max) {
+  const nodes = u.slots?.flatMap((sl) => sl.nodes);
+  if (!nodes?.length) return "";
+  const start = dir < 0 ? nodes[0] : nodes.at(-1);
+  const root = start.getRootNode();
+  const walker = document.createTreeWalker(root.nodeType === 9 ? root.body ?? root : root, NodeFilter.SHOW_TEXT);
+  walker.currentNode = start;
+  const parts = [];
+  let len = 0;
+  for (let i = 0; i < 80 && len < max; i++) {
+    const n = dir < 0 ? walker.previousNode() : walker.nextNode();
+    if (!n) break;
+    const el = n.parentElement;
+    if (!el || /^(SCRIPT|STYLE|NOSCRIPT|TEMPLATE|TEXTAREA)$/.test(el.tagName) || el.closest("[data-esx]")) continue;
+    const t = sourceOf(n).replace(/\s+/g, " ").trim();
+    if (!t) continue;
+    parts.push(t);
+    len += t.length + 3;
+  }
+  const text = redact((dir < 0 ? parts.reverse() : parts).join(" · "));
+  return dir < 0 ? text.slice(-max) : text.slice(0, max);
 }
 
 // ---------- background connection ----------

@@ -29,7 +29,7 @@ export function chunkTexts(items, { maxChars = 1000, maxUnits = 25, size = (x) =
  * indexes the model didn't return (the caller retries or falls back for those).
  */
 export async function translateWithClaude(client, {
-  texts, ctx, lang, model = DEFAULT_MODEL, effort = "low", thinking = "disabled", signal, onResult,
+  texts, ctx, lang, model = DEFAULT_MODEL, effort = "low", thinking = "disabled", signal, onResult, system, message,
 }) {
   const t0 = performance.now();
   let firstToken = null;
@@ -47,8 +47,8 @@ export async function translateWithClaude(client, {
       max_tokens: maxTokens,
       ...(thinking === "disabled" ? { thinking: { type: "disabled" } } : {}),
       output_config: { effort },
-      system: [{ type: "text", text: systemPrompt(lang), cache_control: { type: "ephemeral" } }],
-      messages: [{ role: "user", content: userMessage(texts, ctx) }],
+      system: [{ type: "text", text: system ?? systemPrompt(lang), cache_control: { type: "ephemeral" } }],
+      messages: [{ role: "user", content: message ?? userMessage(texts, ctx) }],
     },
     { signal },
   );
