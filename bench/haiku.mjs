@@ -9,8 +9,11 @@ import { tagIds } from "../src/shared/markup.js";
 
 const OUT = new URL("./out/", import.meta.url).pathname;
 const SCREEN = 900;
-const CONCURRENCY = 8;
-const [variant = "prod", ...only] = process.argv.slice(2);
+const argv = process.argv.slice(2);
+const flag = (name, dflt) => Number(argv.find((a) => a.startsWith(`--${name}=`))?.split("=")[1] ?? dflt);
+const CONCURRENCY = flag("conc", 8);
+const CHUNK = flag("chunk", 1000);
+const [variant = "prod", ...only] = argv.filter((a) => !a.startsWith("--"));
 const cfg = variant === "adaptive" ? { thinking: "adaptive", effort: "low" } : { thinking: "disabled", effort: "low" };
 
 const onPage = (u) => u.visible && u.rect.top >= 0 && u.rect.w > 1 && u.rect.h > 1;
@@ -47,7 +50,7 @@ for (const p of pages) {
     .filter((u) => u.rect.top < 3 * SCREEN)
     .sort((a, b) => a.rect.top - b.rect.top)
     .filter((u) => !seen.has(u.source) && seen.add(u.source));
-  const chunks = chunkTexts(units, { size: (u) => u.source.length });
+  const chunks = chunkTexts(units, { size: (u) => u.source.length, maxChars: CHUNK });
   const translations = {};
   const t0 = performance.now();
   let firstVisibleDone = null;
@@ -108,4 +111,7 @@ for (const p of pages) {
 const tot = (k) => report.pages.reduce((s, r) => s + r[k], 0);
 report.totals = { in: tot("in"), cacheRead: tot("cacheRead"), cacheWrite: tot("cacheWrite"), out: tot("out"), cost: tot("cost"), chars: tot("chars"), units: tot("units"), missing: tot("missing"), tagged: tot("tagged"), tagMismatch: tot("tagMismatch") };
 console.log("TOTALS", JSON.stringify(report.totals));
-fs.writeFileSync(`${OUT}haiku-${variant}${only.length ? "-" + only.join("+") : ""}.json`, JSON.stringify(report, null, 1));
+const suffix = CHUNK !== 1000 || CONCURRENCY !== 8 ? `-c${CHUNK}x${CONCURRENCY}` : "";
+fs.writeFileSync(`${OUT}haiku-${variant}${suffix}${only.length ? "-" + only.join("+") : ""}.json`, JSON.stringify(report, null, 1));
+const med = (k) => { const xs = report.pages.map((p) => p[k]).filter((x) => x != null).sort((a, b) => a - b); return Math.round(xs[Math.floor(xs.length / 2)]); };
+console.log(`MEDIANS chunk ${CHUNK} × ${CONCURRENCY}: first line ${med("firstLineMs")} ms | first screen ${med("screen1Ms")} ms | 3 screens ${med("wallMs")} ms | cost $${report.totals.cost.toFixed(4)}`);

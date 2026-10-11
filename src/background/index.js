@@ -10,7 +10,10 @@ import * as usage from "./usage.js";
 import { localAvailable, localStatus, localTranslate, prepareLocal } from "./local.js";
 
 const api = globalThis.chrome ?? globalThis.browser;
-const CONCURRENCY = 8;
+// On screen now → tiny batches, many in parallel (first screen ~1.5 s instead of ~2.4 s,
+// bench/haiku.mjs --chunk). Prefetch → normal batches with more page context.
+const CONCURRENCY = 24;
+const URGENT = { maxChars: 250, maxUnits: 8 };
 
 // Service workers can't use top-level await: start with defaults, swap in stored settings.
 let settings = DEFAULTS;
@@ -147,7 +150,7 @@ async function handleTranslate(port, items, ctx) {
       existing.waiters.push({ port, k: it.k });
       continue;
     }
-    const job = { key, source: it.s, from: it.src || "en", lang, engine, ctx, waiters: [{ port, k: it.k }] };
+    const job = { key, source: it.s, from: it.src || "en", lang, engine, ctx, urgent: !!it.v, waiters: [{ port, k: it.k }] };
     inflight.set(key, job);
     if (engine === "c") claudeQueue.push(job);
     else runLocal([job]);
@@ -168,7 +171,10 @@ function flushClaude() {
     byPage.get(p).push(j);
   }
   for (const pageJobs of byPage.values()) {
-    for (const chunk of chunkTexts(pageJobs, { size: (j) => j.source.length })) chunkQueue.push(chunk);
+    const size = (j) => j.source.length;
+    const urgent = chunkTexts(pageJobs.filter((j) => j.urgent), { size, ...URGENT });
+    chunkQueue.unshift(...urgent); // what you're looking at goes first
+    for (const chunk of chunkTexts(pageJobs.filter((j) => !j.urgent), { size })) chunkQueue.push(chunk);
   }
   pump();
 }

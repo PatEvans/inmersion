@@ -41,7 +41,7 @@ Repeated text is cached in IndexedDB and never paid for twice. The settings page
 
 - `src/content/segment.js` splits the DOM into translation units: runs of inline text inside a block. Inline elements become numbered tags (`<1>link</1>`), and the translation is written back into the same text nodes; it never restructures the page.
 - `src/content/main.js` tracks visibility with an IntersectionObserver plus a prefetch margin, and sends visible units first. It follows page changes with a MutationObserver and handles the shimmer/spinner, page titles, placeholders and native-version redirects.
-- `src/background/` is the service worker. It holds the queue (deduplicated, chunked, 8 parallel streamed requests), the cache, spend tracking, and Chrome's on-device `Translator`. That API works without a user gesture in an extension service worker.
+- `src/background/` is the service worker. It holds the queue: deduplicated, with on-screen text in small batches first, then prefetch in larger batches, up to 24 parallel streamed requests. It also holds the cache, spend tracking, and Chrome's on-device `Translator`. That API works without a user gesture in an extension service worker.
 - `src/shared/prompt.js` defines the prompt and wire format. Lines go out as `N: text` and stream back the same way, so each finished line is applied immediately. The system prompt (~1k tokens) is prompt-cached.
 - `src/shared/detect.js` gives an instant language guess for short strings: character trigrams plus function words. It drives the YouTube filter, with Chrome's `LanguageDetector` as a second opinion.
 - `src/content/youtube*.js` contains the feed filter, Shorts removal, `PREF` cookie, and the audio-track and caption selection, which uses the page-world player API.
@@ -53,10 +53,10 @@ Scripts are in `bench/` and their output goes to `bench/out/` (git-ignored). The
 | Script | What it measures | Result |
 |---|---|---|
 | `volume.mjs` + `analyze.mjs` | Text on real pages, as exact Haiku 5.5 tokens | First screen median ~1.1k tokens; 3 screens ~2k; ~2.2 chars/token |
-| `haiku.mjs` | Haiku cost, latency, fidelity | $0.031 for 18 pages × 3 screens; first line ~0.8 s; first screen ~2.4 s; 0 dropped lines; 2/302 tag slips |
-| `local.mjs` | Chrome on-device Translator | Free, ~2–4k chars/s, first screen ~0.7 s; tags kept 92% |
+| `haiku.mjs` | Haiku cost, latency, fidelity | $0.031 for 18 pages × 3 screens; 0 dropped lines; 2/302 tag slips. First screen 2.4 s with 1,000-char batches, 1.45 s with 200-char batches × 32 parallel (+15% cost); on-screen text now uses the small batches |
+| `local.mjs` | Chrome on-device Translator | Free, ~2–4k chars/s, first screen ~0.8 s; tags kept 92% |
 | `judge.mjs` | Blind A/B quality, judged by Opus 5.5 | Haiku won 61/64. Accuracy 4.91 vs 3.80, naturalness 4.80 vs 3.00 |
-| `google.mjs` + `judge3.mjs` | Google Translate's free unofficial endpoint (`client=gtx`) vs Haiku vs Chrome local, blind three-way | Best of 64: Haiku 41, Google 5, local 0, tie 18. Naturalness 4.77 / 4.16 / 3.00, accuracy 4.89 / 4.59 / 3.75. Google ~0.27 s/request, tags kept 50/50 |
+| `google.mjs` + `judge3.mjs` | Google Translate's free unofficial endpoint (`client=gtx`) vs Haiku vs Chrome local, blind three-way | Best of 64: Haiku 41, Google 5, local 0, tie 18. Naturalness 4.77 / 4.16 / 3.00, accuracy 4.89 / 4.59 / 3.75. Google ~0.27 s/request, tags kept 50/50, but **rate-limited (429 + CAPTCHA) after ~150 requests** |
 | `eval-detect.mjs`, `eval-langdetector.mjs` | YouTube title language (1,291 labeled titles) | Spanish shown 88%, non-Spanish leaking through 0.5% |
 | `e2e.mjs` | Real browsing with `dist/` loaded | Pages Spanish in ~1.4–4.8 s from navigation |
 

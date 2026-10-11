@@ -373,7 +373,7 @@ async function flush() {
     waiting.set(u.source, new Set([u]));
     const id = nextId++;
     inflight.set(id, { source: u.source, src: from });
-    items.push({ k: id, s: u.source, src: from });
+    items.push({ k: id, s: u.source, src: from, v: u.inView ? 1 : 0 });
     if (S.antiFlash) markPending(u);
   });
   if (items.length) send(items);
