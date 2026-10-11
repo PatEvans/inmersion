@@ -7,3 +7,4 @@ bench/out/
 .DS_Store
 xcuserdata/
 *.xcuserstate
+build/
