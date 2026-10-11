@@ -9,6 +9,7 @@ import * as cache from "./cache.js";
 import * as usage from "./usage.js";
 import { localAvailable, localStatus, localTranslate, prepareLocal } from "./local.js";
 import { splitForPlainEngine, tagStructure } from "../shared/markup.js";
+import { googleAvailable, googleTranslate } from "./google.js";
 
 const api = globalThis.chrome ?? globalThis.browser;
 // On screen now → tiny batches, many in parallel (first screen ~1.5 s instead of ~2.4 s,
@@ -104,6 +105,20 @@ async function useClaude() {
   return (await usage.spentToday()) < settings.dailyBudget;
 }
 
+// Haiku when it can be used; else Google's free endpoint (unless you chose Chrome only, or
+// Google is backing us off); else Chrome's on-device translator.
+async function pickEngine() {
+  if (await useClaude()) return "c";
+  return settings.engine !== "local" && googleAvailable() ? "g" : "l";
+}
+
+// Same order when an engine fails mid-request.
+function runFallback(jobs) {
+  if (!jobs.length) return;
+  if (settings.engine !== "local" && googleAvailable()) runGoogle(jobs);
+  else runLocal(jobs);
+}
+
 // ---------- Translation scheduling ----------
 
 // cacheKey → { source, from, lang, engine, ctx, waiters: [{port, k}] }
@@ -113,6 +128,8 @@ let claudeTimer = null;
 let running = 0;
 const chunkQueue = [];
 let localChain = Promise.resolve();
+let googleQueue = [];
+let googleTimer = null;
 
 function deliver(job, text) {
   for (const w of job.waiters) {
@@ -133,9 +150,10 @@ function fail(job, reason) {
 async function handleTranslate(port, items, ctx) {
   await ready;
   const lang = settings.lang;
-  const engine = (await useClaude()) ? "c" : "l";
+  const engine = await pickEngine();
   // A Claude translation is always good to reuse, even when we're on the local engine.
-  const keysFor = (s) => (engine === "c" ? [cache.cacheKey(lang, "c", s)] : [cache.cacheKey(lang, "c", s), cache.cacheKey(lang, "l", s)]);
+  const usable = { c: ["c"], g: ["c", "g"], l: ["c", "g", "l"] }[engine];
+  const keysFor = (s) => usable.map((e) => cache.cacheKey(lang, e, s));
   const hits = await cache.getMany(items.flatMap((it) => keysFor(it.s)));
   let cachedChars = 0;
   for (const it of items) {
@@ -154,10 +172,12 @@ async function handleTranslate(port, items, ctx) {
     const job = { key, source: it.s, from: it.src || "en", lang, engine, ctx, urgent: !!it.v, waiters: [{ port, k: it.k }] };
     inflight.set(key, job);
     if (engine === "c") claudeQueue.push(job);
+    else if (engine === "g") googleQueue.push(job);
     else runLocal([job]);
   }
   if (cachedChars) usage.record({ cached: cachedChars });
   if (claudeQueue.length) claudeTimer ??= setTimeout(flushClaude, 15);
+  if (googleQueue.length) googleTimer ??= setTimeout(flushGoogle, 15);
 }
 
 function flushClaude() {
@@ -195,8 +215,10 @@ function pump() {
 // would get the wrong text. Haiku very occasionally drops, merges or moves one.
 const tagsMatch = (a, b) => tagStructure(a) === tagStructure(b);
 
-function finish(job, text) {
-  cache.put(job.key, text);
+// Cached under the engine that actually produced it, so a fallback translation is never
+// later served as a Haiku one.
+function finish(job, text, engine = "c") {
+  cache.put(cache.cacheKey(job.lang, engine, job.source), text);
   inflight.delete(job.key);
   deliver(job, text);
 }
@@ -233,7 +255,7 @@ async function runClaude(chunk, attempt = 0) {
     if (settings.keyError) saveSettings({ keyError: "" });
     const redo = [...r.missing.map((i) => chunk[i]), ...broken];
     if (redo.length) {
-      if (r.stop === "refusal") runLocal(redo);
+      if (r.stop === "refusal") runFallback(redo);
       else if (attempt === 0) runClaude(redo, 1); // a fresh attempt almost always fixes it
       else runClaudePieces(redo);
     }
@@ -243,8 +265,8 @@ async function runClaude(chunk, attempt = 0) {
     if (status === 401 || status === 403 || status === 400) {
       saveSettings({ keyError: `${status}: ${e?.error?.error?.message ?? e.message}`.slice(0, 200) });
     }
-    console.warn("Claude engine failed, falling back to local", status, e?.message);
-    runLocal(chunk.filter((j) => inflight.has(j.key)));
+    console.warn("Claude engine failed, falling back", status, e?.message);
+    runFallback(chunk.filter((j) => inflight.has(j.key)));
   }
 }
 
@@ -264,7 +286,7 @@ async function runClaudePieces(jobs) {
     });
     recordClaude(r, texts.reduce((s, t) => s + t.length, 0));
   } catch {
-    return runLocal(jobs);
+    return runFallback(jobs);
   }
   let k = 0;
   jobs.forEach((job, n) => {
@@ -272,6 +294,45 @@ async function runClaudePieces(jobs) {
     finish(job, x.join(x.pieces.map((_, i) => out[k + i])));
     k += x.pieces.length;
   });
+}
+
+function flushGoogle() {
+  googleTimer = null;
+  const jobs = googleQueue;
+  googleQueue = [];
+  runGoogle(jobs);
+}
+
+async function runGoogle(jobs) {
+  const target = jobs[0]?.lang;
+  if (!target) return;
+  const mine = jobs.filter((j) => j.lang === target);
+  if (mine.length < jobs.length) runGoogle(jobs.filter((j) => j.lang !== target));
+  const broken = [];
+  try {
+    await googleTranslate(mine.map((j) => j.source), target, (i, text) => {
+      if (tagsMatch(mine[i].source, text)) finish(mine[i], text, "g");
+      else broken.push(mine[i]);
+    });
+    if (broken.length) {
+      // Same repair as for Haiku: translate the text between markers, keep the markers.
+      const splits = broken.map((j) => splitForPlainEngine(j.source));
+      const pieces = splits.flatMap((x) => x.pieces);
+      const out = new Array(pieces.length);
+      await googleTranslate(pieces, target, (i, t) => (out[i] = t));
+      let k = 0;
+      broken.forEach((job, n) => {
+        const x = splits[n];
+        finish(job, x.join(x.pieces.map((_, i) => out[k + i])), "g");
+        k += x.pieces.length;
+      });
+    }
+    const chars = mine.reduce((s, j) => s + j.source.length, 0);
+    usage.record({ google: chars, chars });
+  } catch {
+    // Blocked or offline: Chrome's on-device translator takes over.
+    runLocal(mine.filter((j) => inflight.has(j.key)));
+  }
 }
 
 function runLocal(jobs) {
@@ -283,10 +344,7 @@ function runLocal(jobs) {
       }
       try {
         const out = await localTranslate(job.source, job.from, langInfo(job.lang).chrome);
-        const key = cache.cacheKey(job.lang, "l", job.source);
-        cache.put(key, out);
-        inflight.delete(job.key);
-        deliver(job, out);
+        finish(job, out, "l");
         usage.record({ local: job.source.length, chars: job.source.length });
       } catch (e) {
         inflight.delete(job.key);
@@ -320,6 +378,7 @@ api.runtime.onMessage.addListener((msg, sender, reply) => {
           cache: await cache.stats(),
           local: await localStatus("en", L.chrome),
           claudeOn: await useClaude(),
+          engine: await pickEngine(),
         });
         break;
       }

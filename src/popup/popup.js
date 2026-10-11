@@ -56,8 +56,9 @@ async function render() {
   }
   const st = await api.runtime.sendMessage({ t: "status" }).catch(() => null);
   const cost = st?.usage?.today?.cost ?? 0;
-  if (S.engine === "claude" && cost >= S.dailyBudget) status.textContent = "Límite de hoy alcanzado · modo gratis";
-  else if (S.engine === "local") status.textContent = "Traductor gratuito";
+  const free = st?.engine === "g" ? "Google Translate" : "traductor de Chrome";
+  if (S.engine === "claude" && cost >= S.dailyBudget) status.textContent = `Límite de hoy alcanzado · ${free}`;
+  else if (S.engine !== "claude") status.textContent = `${free[0].toUpperCase()}${free.slice(1)} (gratis)`;
   else if (!cost) status.textContent = "Hoy sin gasto";
   else {
     const days = st.usage.runwayDays;

@@ -9,7 +9,7 @@
 <body class="page">
   <header><span class="logo">ñ</span><h1>Ajustes</h1></header>
 
-  <p class="intro" id="welcome" hidden>Pega tu clave de Claude para traducir con la mejor calidad (unos céntimos al día). Sin clave se usa el traductor gratuito de Chrome.</p>
+  <p class="intro" id="welcome" hidden>Pega tu clave de Claude para traducir con la mejor calidad (unos céntimos al día). Sin clave, o al llegar al límite diario, se usa Google Translate gratis y, si Google no responde, el traductor de Chrome.</p>
 
   <h2>Traductor</h2>
   <div class="card">
@@ -17,7 +17,8 @@
       <span>Motor</span>
       <select id="engine">
         <option value="claude">Claude Haiku 5.5</option>
-        <option value="local">Gratuito (Chrome)</option>
+        <option value="google">Google Translate (gratis)</option>
+        <option value="local">Chrome (gratis, sin conexión)</option>
       </select>
     </div>
     <div class="stack" id="keyBlock">

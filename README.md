@@ -2,7 +2,8 @@
 
 A personal Chrome extension that shows the whole web in Spanish (or any of 12 languages) for language immersion.
 
-- **Text**: everything you see is translated in place with Claude Haiku 5.5, without breaking links, formatting or React/Vue apps. Chrome's free on-device translator is the fallback (no key, daily budget reached, offline, API errors).
+- **Text**: everything you see is translated in place with Claude Haiku 5.5, without breaking links, formatting or React/Vue apps.
+- **Fallbacks**: without a key, past the daily budget, or if the API fails, Google Translate's free endpoint takes over. It's batched and paced, and backs off for 15+ minutes if Google rate-limits. Chrome's on-device translator is the last resort.
 - **You never see English**: text waiting for its translation stays invisible behind a soft shimmer, with a small spinner in the corner. Content a screen ahead, and the rest of a carousel row, is translated before you reach it.
 - **Native first**: sites are asked for Spanish (`Accept-Language`, `navigator.language`). If a page has its own Spanish version (`hreflang`, Wikipedia language links), you go there instead.
 - **YouTube**:
@@ -41,7 +42,7 @@ Repeated text is cached in IndexedDB and never paid for twice. The settings page
 
 - `src/content/segment.js` splits the DOM into translation units: runs of inline text inside a block. Inline elements become numbered tags (`<1>link</1>`), and the translation is written back into the same text nodes; it never restructures the page.
 - `src/content/main.js` tracks visibility with an IntersectionObserver plus a prefetch margin, and sends visible units first. It follows page changes with a MutationObserver and handles the shimmer/spinner, page titles, placeholders and native-version redirects.
-- `src/background/` is the service worker. It holds the queue: deduplicated, with on-screen text in small batches first, then prefetch in larger batches, up to 24 parallel streamed requests. It also holds the cache, spend tracking, and Chrome's on-device `Translator`. That API works without a user gesture in an extension service worker.
+- `src/background/` is the service worker. It holds the queue: deduplicated, with on-screen text in small batches first, then prefetch in larger batches, up to 24 parallel streamed requests. It also holds the cache, spend tracking, and the fallback chain: Haiku → Google (`google.js`) → Chrome's on-device `Translator`. Every line is checked to have the same marker nesting as its source; otherwise it's retried, then rebuilt from the text between the markers. That API works without a user gesture in an extension service worker.
 - `src/shared/prompt.js` defines the prompt and wire format. Lines go out as `N: text` and stream back the same way, so each finished line is applied immediately. The system prompt (~1k tokens) is prompt-cached.
 - `src/shared/detect.js` gives an instant language guess for short strings: character trigrams plus function words. It drives the YouTube filter, with Chrome's `LanguageDetector` as a second opinion.
 - `src/content/youtube*.js` contains the feed filter, Shorts removal, `PREF` cookie, and the audio-track and caption selection, which uses the page-world player API.
