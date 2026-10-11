@@ -8,6 +8,7 @@ import { DEFAULTS, getSettings, saveSettings, onSettingsChanged, siteKey } from 
 import * as cache from "./cache.js";
 import * as usage from "./usage.js";
 import { localAvailable, localStatus, localTranslate, prepareLocal } from "./local.js";
+import { splitForPlainEngine, tagStructure } from "../shared/markup.js";
 
 const api = globalThis.chrome ?? globalThis.browser;
 // On screen now → tiny batches, many in parallel (first screen ~1.5 s instead of ~2.4 s,
@@ -190,8 +191,32 @@ function pump() {
   }
 }
 
-async function runClaude(chunk, retry = false) {
+// The markers (<1>…</1>) must come back with the same nesting, or links and formatting
+// would get the wrong text. Haiku very occasionally drops, merges or moves one.
+const tagsMatch = (a, b) => tagStructure(a) === tagStructure(b);
+
+function finish(job, text) {
+  cache.put(job.key, text);
+  inflight.delete(job.key);
+  deliver(job, text);
+}
+
+function recordClaude(r, chars) {
+  usage.record({
+    cost: r.cost,
+    in: r.usage.input_tokens ?? 0,
+    out: r.usage.output_tokens ?? 0,
+    cacheRead: r.usage.cache_read_input_tokens ?? 0,
+    cacheWrite: r.usage.cache_creation_input_tokens ?? 0,
+    requests: 1,
+    chars,
+  });
+}
+
+// attempt 0: normal; attempt 1: lines that came back missing or with broken markers.
+async function runClaude(chunk, attempt = 0) {
   const lang = chunk[0].lang;
+  const broken = [];
   try {
     const r = await translateWithClaude(claudeClient(), {
       texts: chunk.map((j) => j.source),
@@ -200,25 +225,17 @@ async function runClaude(chunk, retry = false) {
       model: settings.model,
       onResult: (i, text) => {
         const job = chunk[i];
-        cache.put(job.key, text);
-        inflight.delete(job.key);
-        deliver(job, text);
+        if (tagsMatch(job.source, text)) finish(job, text);
+        else broken.push(job);
       },
     });
-    usage.record({
-      cost: r.cost,
-      in: r.usage.input_tokens ?? 0,
-      out: r.usage.output_tokens ?? 0,
-      cacheRead: r.usage.cache_read_input_tokens ?? 0,
-      cacheWrite: r.usage.cache_creation_input_tokens ?? 0,
-      requests: 1,
-      chars: chunk.reduce((s, j) => s + j.source.length, 0),
-    });
+    recordClaude(r, chunk.reduce((s, j) => s + j.source.length, 0));
     if (settings.keyError) saveSettings({ keyError: "" });
-    const missing = r.missing.map((i) => chunk[i]);
-    if (missing.length) {
-      if (r.stop === "refusal" || retry) runLocal(missing);
-      else runClaude(missing, true);
+    const redo = [...r.missing.map((i) => chunk[i]), ...broken];
+    if (redo.length) {
+      if (r.stop === "refusal") runLocal(redo);
+      else if (attempt === 0) runClaude(redo, 1); // a fresh attempt almost always fixes it
+      else runClaudePieces(redo);
     }
     updateBadge();
   } catch (e) {
@@ -229,6 +246,32 @@ async function runClaude(chunk, retry = false) {
     console.warn("Claude engine failed, falling back to local", status, e?.message);
     runLocal(chunk.filter((j) => inflight.has(j.key)));
   }
+}
+
+// Last resort: translate only the text between the markers, one piece per line, and put
+// it back around the original markers, so the structure can't break.
+async function runClaudePieces(jobs) {
+  const splits = jobs.map((j) => splitForPlainEngine(j.source));
+  const texts = splits.flatMap((x) => x.pieces);
+  const out = new Array(texts.length);
+  try {
+    const r = await translateWithClaude(claudeClient(), {
+      texts,
+      ctx: jobs[0].ctx,
+      lang: jobs[0].lang,
+      model: settings.model,
+      onResult: (i, text) => (out[i] = text.replace(/<\/?\d{1,3}\/?>|<br>/g, "")),
+    });
+    recordClaude(r, texts.reduce((s, t) => s + t.length, 0));
+  } catch {
+    return runLocal(jobs);
+  }
+  let k = 0;
+  jobs.forEach((job, n) => {
+    const x = splits[n];
+    finish(job, x.join(x.pieces.map((_, i) => out[k + i])));
+    k += x.pieces.length;
+  });
 }
 
 function runLocal(jobs) {

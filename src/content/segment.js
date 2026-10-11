@@ -59,8 +59,30 @@ export function isExcluded(el) {
     el.getAttribute("translate") === "no" ||
     el.classList.contains("notranslate") ||
     el.hasAttribute("data-esx") ||
-    el.isContentEditable
+    el.isContentEditable ||
+    isIcon(el)
   );
+}
+
+// Icon fonts draw a word as a symbol ("home" → 🏠 in Material Symbols). Translating the
+// word breaks the icon into garbled letters, so icon text is never touched.
+const ICON_TAGS = new Set(["mat-icon", "md-icon", "iron-icon"]);
+const ICON_CLASS = /\b(material-icons|material-symbols|google-symbols|google-material-icons|mat-icon|glyphicon)/i;
+const iconFont = new WeakMap();
+function isIcon(el) {
+  if (ICON_TAGS.has(el.localName)) return true;
+  const cls = el.getAttribute("class");
+  if (cls && ICON_CLASS.test(cls)) return true;
+  // Any other ligature icon font: one short lowercase word ("arrow_forward") in a font
+  // whose name says icons/symbols.
+  const t = el.firstChild;
+  if (!t || t.nodeType !== TEXT || t !== el.lastChild || !/^[a-z0-9_]{2,40}$/.test(sourceOf(t).trim())) return false;
+  let v = iconFont.get(el);
+  if (v === undefined) {
+    v = /icons|symbols|material/i.test(getComputedStyle(el).fontFamily);
+    iconFont.set(el, v);
+  }
+  return v;
 }
 
 /**

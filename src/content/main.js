@@ -416,7 +416,9 @@ function onResult(msg) {
     results.set(entry.source, msg.r);
     for (const u of set ?? []) apply(u, msg.r);
   } else {
+    // Don't hammer a failing engine, but don't give up on the page either.
     failed.add(entry.source);
+    setTimeout(() => failed.delete(entry.source), 20000);
     for (const u of set ?? []) unmarkPending(u);
   }
 }

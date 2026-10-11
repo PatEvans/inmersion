@@ -83,3 +83,30 @@ export function splitForPlainEngine(str) {
       skeleton.map((s) => (s.raw !== undefined ? s.raw : s.lead + (translated[s.piece] ?? pieces[s.piece]) + s.trail)).join(""),
   };
 }
+
+/**
+ * Shape of the markup: every tag with the tag it sits inside (and <br>s likewise).
+ * Word order may change in translation, nesting may not: a tag that moves out of its
+ * parent would put text into the wrong element.
+ */
+export function tagStructure(str) {
+  const stack = [0];
+  const parts = [];
+  for (const m of str.matchAll(TOKEN_RE)) {
+    if (m[0] === "<br>") {
+      parts.push(`br@${stack.at(-1)}`);
+      continue;
+    }
+    const id = Number(m[2]);
+    if (m[1]) {
+      const i = stack.lastIndexOf(id);
+      if (i > 0) stack.length = i;
+      else parts.push(`stray${id}`);
+      continue;
+    }
+    parts.push(`${id}@${stack.at(-1)}${m[3] ? "/" : ""}`);
+    if (!m[3]) stack.push(id);
+  }
+  if (stack.length > 1) parts.push("unclosed");
+  return parts.sort().join(",");
+}
