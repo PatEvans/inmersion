@@ -1,0 +1,9 @@
+.env
+node_modules/
+dist/
+dist-safari/
+bench/out/
+*.log
+.DS_Store
+xcuserdata/
+*.xcuserstate

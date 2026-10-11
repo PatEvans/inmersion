@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inmersión · Ajustes</title>
+  <link rel="stylesheet" href="ui.css">
+</head>
+<body class="page">
+  <header><span class="logo">ñ</span><h1>Ajustes</h1></header>
+
+  <p class="intro" id="welcome" hidden>Pega tu clave de Claude para traducir con la mejor calidad (unos céntimos al día). Sin clave se usa el traductor gratuito de Chrome.</p>
+
+  <h2>Traductor</h2>
+  <div class="card">
+    <div class="row">
+      <span>Motor</span>
+      <select id="engine">
+        <option value="claude">Claude Haiku 5.5</option>
+        <option value="local">Gratuito (Chrome)</option>
+      </select>
+    </div>
+    <div class="stack" id="keyBlock">
+      <div class="inline">
+        <input type="password" id="apiKey" placeholder="Clave de la API (sk-ant-…)" autocomplete="off" spellcheck="false">
+        <button id="testKey">Probar</button>
+      </div>
+      <input type="text" id="workspaceId" placeholder="ID de workspace (solo si tu clave lo pide)" spellcheck="false">
+      <span class="small muted" id="keyStatus"></span>
+    </div>
+  </div>
+
+  <h2>Gasto</h2>
+  <div class="card">
+    <div class="stats">
+      <div><b id="today">—</b><span>hoy</span></div>
+      <div><b id="month">—</b><span>este mes</span></div>
+      <div><b id="runway">—</b><span>días de saldo</span></div>
+    </div>
+    <div class="row"><span>Límite diario ($)</span><input class="num" type="number" id="dailyBudget" min="0" step="0.1" aria-label="Límite diario en dólares"></div>
+    <div class="row"><span>Saldo de la cuenta ($)</span><input class="num" type="number" id="credit" min="0" step="1" aria-label="Saldo en dólares"></div>
+  </div>
+
+  <h2>YouTube</h2>
+  <div class="card">
+    <div class="row">
+      <span>Vídeos en otros idiomas</span>
+      <select id="ytFilter">
+        <option value="hide">Ocultar</option>
+        <option value="dim">Atenuar</option>
+        <option value="off">Mostrar</option>
+      </select>
+    </div>
+    <div class="row"><span>Ocultar Shorts</span><label class="switch"><input type="checkbox" id="ytNoShorts" aria-label="Ocultar Shorts"><span></span></label></div>
+    <div class="row"><span>Doblaje en tu idioma</span><label class="switch"><input type="checkbox" id="ytAudio" aria-label="Doblaje en tu idioma"><span></span></label></div>
+    <div class="row">
+      <span>Subtítulos en tu idioma</span>
+      <select id="ytCaptions">
+        <option value="auto">Si hacen falta</option>
+        <option value="always">Siempre</option>
+        <option value="off">Nunca</option>
+      </select>
+    </div>
+  </div>
+
+  <details class="page-more">
+    <summary>Más opciones</summary>
+    <div class="card">
+      <div class="row"><span>Ir a la versión del sitio en tu idioma</span><label class="switch"><input type="checkbox" id="nativeFirst" aria-label="Ir a la versión del sitio en tu idioma"><span></span></label></div>
+      <div class="row"><span>Ocultar el original mientras se traduce</span><label class="switch"><input type="checkbox" id="antiFlash" aria-label="Ocultar el original mientras se traduce"><span></span></label></div>
+      <div class="row"><span>Caché <span class="small muted" id="cacheCount"></span></span><button id="clearCache">Borrar</button></div>
+    </div>
+  </details>
+
+  <p class="small muted" style="margin-top:28px">Mantén pulsada ⌥ para ver el original · ⌥⇧E activa o desactiva el sitio actual.</p>
+  <script src="options.js"></script>
+</body>
+</html>

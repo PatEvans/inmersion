@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inmersión</title>
+  <link rel="stylesheet" href="ui.css">
+</head>
+<body class="popup">
+  <header>
+    <span class="logo">ñ</span>
+    <h1>Inmersión</h1>
+    <label class="switch"><input type="checkbox" id="enabled" aria-label="Activar en todas partes"><span></span></label>
+  </header>
+  <main id="main">
+    <select id="lang" aria-label="Idioma"></select>
+    <label class="row" id="siteRow" hidden>
+      <span>Traducir <span id="host"></span></span>
+      <span class="switch"><input type="checkbox" id="site"><span></span></span>
+    </label>
+  </main>
+  <footer>
+    <button class="link" id="status"></button>
+    <button class="link" id="settings">Ajustes</button>
+  </footer>
+  <script src="popup.js"></script>
+</body>
+</html>

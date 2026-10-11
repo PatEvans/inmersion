@@ -1,0 +1,19 @@
+{
+  "name": "inmersion",
+  "version": "0.1.0",
+  "description": "Personal Chrome extension: the whole web (and YouTube) in Spanish",
+  "scripts": {
+    "build": "node build.mjs",
+    "build:safari": "node build.mjs safari"
+  },
+  "type": "module",
+  "private": true,
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.133.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "playwright": "^1.64.0",
+    "zod": "^4.6.5"
+  }
+}

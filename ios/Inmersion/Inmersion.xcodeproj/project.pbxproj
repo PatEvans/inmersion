@@ -1,0 +1,638 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		431D4859307BA3A100A062A0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431D4858307BA3A100A062A0 /* AppDelegate.swift */; };
+		431D485D307BA3A100A062A0 /* Main.html in Resources */ = {isa = PBXBuildFile; fileRef = 431D485B307BA3A100A062A0 /* Main.html */; };
+		431D485F307BA3A100A062A0 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 431D485E307BA3A100A062A0 /* Icon.png */; };
+		431D4861307BA3A100A062A0 /* Style.css in Resources */ = {isa = PBXBuildFile; fileRef = 431D4860307BA3A100A062A0 /* Style.css */; };
+		431D4863307BA3A100A062A0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431D4862307BA3A100A062A0 /* SceneDelegate.swift */; };
+		431D4865307BA3A100A062A0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431D4864307BA3A100A062A0 /* ViewController.swift */; };
+		431D4868307BA3A100A062A0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 431D4866307BA3A100A062A0 /* LaunchScreen.storyboard */; };
+		431D486B307BA3A100A062A0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 431D4869307BA3A100A062A0 /* Main.storyboard */; };
+		431D4873307BA3A200A062A0 /* Inmersion Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 431D4872307BA3A200A062A0 /* Inmersion Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		431D4878307BA3A200A062A0 /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431D4877307BA3A200A062A0 /* SafariWebExtensionHandler.swift */; };
+		431D487A307BA3A200A062A0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 431D486C307BA3A200A062A0 /* Assets.xcassets */; };
+		431D488F307BA3A200A062A0 /* popup.js in Resources */ = {isa = PBXBuildFile; fileRef = 431D4885307BA3A200A062A0 /* popup.js */; };
+		431D4890307BA3A200A062A0 /* background.js in Resources */ = {isa = PBXBuildFile; fileRef = 431D4886307BA3A200A062A0 /* background.js */; };
+		431D4891307BA3A200A062A0 /* popup.html in Resources */ = {isa = PBXBuildFile; fileRef = 431D4887307BA3A200A062A0 /* popup.html */; };
+		431D4892307BA3A200A062A0 /* youtube.js in Resources */ = {isa = PBXBuildFile; fileRef = 431D4888307BA3A200A062A0 /* youtube.js */; };
+		431D4893307BA3A200A062A0 /* icons in Resources */ = {isa = PBXBuildFile; fileRef = 431D4889307BA3A200A062A0 /* icons */; };
+		431D4894307BA3A200A062A0 /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 431D488A307BA3A200A062A0 /* manifest.json */; };
+		431D4895307BA3A200A062A0 /* youtube-player.js in Resources */ = {isa = PBXBuildFile; fileRef = 431D488B307BA3A200A062A0 /* youtube-player.js */; };
+		431D4896307BA3A200A062A0 /* popup.css in Resources */ = {isa = PBXBuildFile; fileRef = 431D488C307BA3A200A062A0 /* popup.css */; };
+		431D4897307BA3A200A062A0 /* content.js in Resources */ = {isa = PBXBuildFile; fileRef = 431D488D307BA3A200A062A0 /* content.js */; };
+		431D4898307BA3A200A062A0 /* navlang in Resources */ = {isa = PBXBuildFile; fileRef = 431D488E307BA3A200A062A0 /* navlang */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		431D4874307BA3A200A062A0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 431D484D307BA3A100A062A0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 431D4871307BA3A200A062A0;
+			remoteInfo = "Inmersion Extension";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		431D4880307BA3A200A062A0 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				431D4873307BA3A200A062A0 /* Inmersion Extension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		431D4855307BA3A100A062A0 /* Inmersion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Inmersion.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		431D4858307BA3A100A062A0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		431D485C307BA3A100A062A0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Base; path = Base.lproj/Main.html; sourceTree = "<group>"; };
+		431D485E307BA3A100A062A0 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		431D4860307BA3A100A062A0 /* Style.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = Style.css; sourceTree = "<group>"; };
+		431D4862307BA3A100A062A0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		431D4864307BA3A100A062A0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		431D4867307BA3A100A062A0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		431D486A307BA3A100A062A0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		431D486C307BA3A200A062A0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		431D486D307BA3A200A062A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		431D4872307BA3A200A062A0 /* Inmersion Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Inmersion Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		431D4877307BA3A200A062A0 /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
+		431D4879307BA3A200A062A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		431D4885307BA3A200A062A0 /* popup.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = popup.js; path = "../../../dist-safari/popup.js"; sourceTree = "<group>"; };
+		431D4886307BA3A200A062A0 /* background.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = background.js; path = "../../../dist-safari/background.js"; sourceTree = "<group>"; };
+		431D4887307BA3A200A062A0 /* popup.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = popup.html; path = "../../../dist-safari/popup.html"; sourceTree = "<group>"; };
+		431D4888307BA3A200A062A0 /* youtube.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = youtube.js; path = "../../../dist-safari/youtube.js"; sourceTree = "<group>"; };
+		431D4889307BA3A200A062A0 /* icons */ = {isa = PBXFileReference; lastKnownFileType = folder; name = icons; path = "../../../dist-safari/icons"; sourceTree = "<group>"; };
+		431D488A307BA3A200A062A0 /* manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = manifest.json; path = "../../../dist-safari/manifest.json"; sourceTree = "<group>"; };
+		431D488B307BA3A200A062A0 /* youtube-player.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = "youtube-player.js"; path = "../../../dist-safari/youtube-player.js"; sourceTree = "<group>"; };
+		431D488C307BA3A200A062A0 /* popup.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; name = popup.css; path = "../../../dist-safari/popup.css"; sourceTree = "<group>"; };
+		431D488D307BA3A200A062A0 /* content.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = content.js; path = "../../../dist-safari/content.js"; sourceTree = "<group>"; };
+		431D488E307BA3A200A062A0 /* navlang */ = {isa = PBXFileReference; lastKnownFileType = folder; name = navlang; path = "../../../dist-safari/navlang"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		431D4852307BA3A100A062A0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		431D486F307BA3A200A062A0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		431D484C307BA3A100A062A0 = {
+			isa = PBXGroup;
+			children = (
+				431D4857307BA3A100A062A0 /* Inmersion */,
+				431D4876307BA3A200A062A0 /* Inmersion Extension */,
+				431D4856307BA3A100A062A0 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		431D4856307BA3A100A062A0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				431D4855307BA3A100A062A0 /* Inmersion.app */,
+				431D4872307BA3A200A062A0 /* Inmersion Extension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		431D4857307BA3A100A062A0 /* Inmersion */ = {
+			isa = PBXGroup;
+			children = (
+				431D4858307BA3A100A062A0 /* AppDelegate.swift */,
+				431D4862307BA3A100A062A0 /* SceneDelegate.swift */,
+				431D4864307BA3A100A062A0 /* ViewController.swift */,
+				431D4866307BA3A100A062A0 /* LaunchScreen.storyboard */,
+				431D4869307BA3A100A062A0 /* Main.storyboard */,
+				431D486C307BA3A200A062A0 /* Assets.xcassets */,
+				431D486D307BA3A200A062A0 /* Info.plist */,
+				431D485A307BA3A100A062A0 /* Resources */,
+			);
+			path = Inmersion;
+			sourceTree = "<group>";
+		};
+		431D485A307BA3A100A062A0 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				431D485B307BA3A100A062A0 /* Main.html */,
+				431D485E307BA3A100A062A0 /* Icon.png */,
+				431D4860307BA3A100A062A0 /* Style.css */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		431D4876307BA3A200A062A0 /* Inmersion Extension */ = {
+			isa = PBXGroup;
+			children = (
+				431D4884307BA3A200A062A0 /* Resources */,
+				431D4877307BA3A200A062A0 /* SafariWebExtensionHandler.swift */,
+				431D4879307BA3A200A062A0 /* Info.plist */,
+			);
+			path = "Inmersion Extension";
+			sourceTree = "<group>";
+		};
+		431D4884307BA3A200A062A0 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				431D4885307BA3A200A062A0 /* popup.js */,
+				431D4886307BA3A200A062A0 /* background.js */,
+				431D4887307BA3A200A062A0 /* popup.html */,
+				431D4888307BA3A200A062A0 /* youtube.js */,
+				431D4889307BA3A200A062A0 /* icons */,
+				431D488A307BA3A200A062A0 /* manifest.json */,
+				431D488B307BA3A200A062A0 /* youtube-player.js */,
+				431D488C307BA3A200A062A0 /* popup.css */,
+				431D488D307BA3A200A062A0 /* content.js */,
+				431D488E307BA3A200A062A0 /* navlang */,
+			);
+			name = Resources;
+			path = "Inmersion Extension";
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		431D4854307BA3A100A062A0 /* Inmersion */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 431D4881307BA3A200A062A0 /* Build configuration list for PBXNativeTarget "Inmersion" */;
+			buildPhases = (
+				431D4851307BA3A100A062A0 /* Sources */,
+				431D4852307BA3A100A062A0 /* Frameworks */,
+				431D4853307BA3A100A062A0 /* Resources */,
+				431D4880307BA3A200A062A0 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				431D4875307BA3A200A062A0 /* PBXTargetDependency */,
+			);
+			name = Inmersion;
+			packageProductDependencies = (
+			);
+			productName = Inmersion;
+			productReference = 431D4855307BA3A100A062A0 /* Inmersion.app */;
+			productType = "com.apple.product-type.application";
+		};
+		431D4871307BA3A200A062A0 /* Inmersion Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 431D487D307BA3A200A062A0 /* Build configuration list for PBXNativeTarget "Inmersion Extension" */;
+			buildPhases = (
+				431D486E307BA3A200A062A0 /* Sources */,
+				431D486F307BA3A200A062A0 /* Frameworks */,
+				431D4870307BA3A200A062A0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Inmersion Extension";
+			packageProductDependencies = (
+			);
+			productName = "Inmersion Extension";
+			productReference = 431D4872307BA3A200A062A0 /* Inmersion Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		431D484D307BA3A100A062A0 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2660;
+				LastUpgradeCheck = 2660;
+				TargetAttributes = {
+					431D4854307BA3A100A062A0 = {
+						CreatedOnToolsVersion = 26.6;
+					};
+					431D4871307BA3A200A062A0 = {
+						CreatedOnToolsVersion = 26.6;
+					};
+				};
+			};
+			buildConfigurationList = 431D4850307BA3A100A062A0 /* Build configuration list for PBXProject "Inmersion" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 431D484C307BA3A100A062A0;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 431D4856307BA3A100A062A0 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				431D4854307BA3A100A062A0 /* Inmersion */,
+				431D4871307BA3A200A062A0 /* Inmersion Extension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		431D4853307BA3A100A062A0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				431D485F307BA3A100A062A0 /* Icon.png in Resources */,
+				431D486B307BA3A100A062A0 /* Main.storyboard in Resources */,
+				431D4868307BA3A100A062A0 /* LaunchScreen.storyboard in Resources */,
+				431D485D307BA3A100A062A0 /* Main.html in Resources */,
+				431D487A307BA3A200A062A0 /* Assets.xcassets in Resources */,
+				431D4861307BA3A100A062A0 /* Style.css in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		431D4870307BA3A200A062A0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				431D4890307BA3A200A062A0 /* background.js in Resources */,
+				431D4891307BA3A200A062A0 /* popup.html in Resources */,
+				431D4892307BA3A200A062A0 /* youtube.js in Resources */,
+				431D4893307BA3A200A062A0 /* icons in Resources */,
+				431D4896307BA3A200A062A0 /* popup.css in Resources */,
+				431D4895307BA3A200A062A0 /* youtube-player.js in Resources */,
+				431D4897307BA3A200A062A0 /* content.js in Resources */,
+				431D4894307BA3A200A062A0 /* manifest.json in Resources */,
+				431D4898307BA3A200A062A0 /* navlang in Resources */,
+				431D488F307BA3A200A062A0 /* popup.js in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		431D4851307BA3A100A062A0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				431D4865307BA3A100A062A0 /* ViewController.swift in Sources */,
+				431D4859307BA3A100A062A0 /* AppDelegate.swift in Sources */,
+				431D4863307BA3A100A062A0 /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		431D486E307BA3A200A062A0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				431D4878307BA3A200A062A0 /* SafariWebExtensionHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		431D4875307BA3A200A062A0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 431D4871307BA3A200A062A0 /* Inmersion Extension */;
+			targetProxy = 431D4874307BA3A200A062A0 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		431D485B307BA3A100A062A0 /* Main.html */ = {
+			isa = PBXVariantGroup;
+			children = (
+				431D485C307BA3A100A062A0 /* Base */,
+			);
+			name = Main.html;
+			sourceTree = "<group>";
+		};
+		431D4866307BA3A100A062A0 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				431D4867307BA3A100A062A0 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		431D4869307BA3A100A062A0 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				431D486A307BA3A100A062A0 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		431D487B307BA3A200A062A0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		431D487C307BA3A200A062A0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		431D487E307BA3A200A062A0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Inmersion Extension/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Inmersion Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.pat.inmersion.Extension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		431D487F307BA3A200A062A0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Inmersion Extension/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Inmersion Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.pat.inmersion.Extension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		431D4882307BA3A200A062A0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Inmersion/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Inmersion;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.pat.Inmersion;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		431D4883307BA3A200A062A0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Inmersion/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Inmersion;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.pat.Inmersion;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		431D4850307BA3A100A062A0 /* Build configuration list for PBXProject "Inmersion" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				431D487B307BA3A200A062A0 /* Debug */,
+				431D487C307BA3A200A062A0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		431D487D307BA3A200A062A0 /* Build configuration list for PBXNativeTarget "Inmersion Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				431D487E307BA3A200A062A0 /* Debug */,
+				431D487F307BA3A200A062A0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		431D4881307BA3A200A062A0 /* Build configuration list for PBXNativeTarget "Inmersion" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				431D4882307BA3A200A062A0 /* Debug */,
+				431D4883307BA3A200A062A0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 431D484D307BA3A100A062A0 /* Project object */;
+}
