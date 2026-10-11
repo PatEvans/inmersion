@@ -56,6 +56,7 @@ Scripts are in `bench/` and their output goes to `bench/out/` (git-ignored). The
 | `haiku.mjs` | Haiku cost, latency, fidelity | $0.031 for 18 pages × 3 screens; first line ~0.8 s; first screen ~2.4 s; 0 dropped lines; 2/302 tag slips |
 | `local.mjs` | Chrome on-device Translator | Free, ~2–4k chars/s, first screen ~0.7 s; tags kept 92% |
 | `judge.mjs` | Blind A/B quality, judged by Opus 5.5 | Haiku won 61/64. Accuracy 4.91 vs 3.80, naturalness 4.80 vs 3.00 |
+| `google.mjs` + `judge3.mjs` | Google Translate's free unofficial endpoint (`client=gtx`) vs Haiku vs Chrome local, blind three-way | Best of 64: Haiku 41, Google 5, local 0, tie 18. Naturalness 4.77 / 4.16 / 3.00, accuracy 4.89 / 4.59 / 3.75. Google ~0.27 s/request, tags kept 50/50 |
 | `eval-detect.mjs`, `eval-langdetector.mjs` | YouTube title language (1,291 labeled titles) | Spanish shown 88%, non-Spanish leaking through 0.5% |
 | `e2e.mjs` | Real browsing with `dist/` loaded | Pages Spanish in ~1.4–4.8 s from navigation |
 
